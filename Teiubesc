@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pop the Hearts Game</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap');
+
         body {
             display: flex;
             justify-content: center;
@@ -23,30 +25,77 @@
 
         .heart {
             position: absolute;
-            background-color: red;
             width: 50px;
             height: 50px;
-            clip-path: polygon(50% 0%, 61% 8%, 75% 8%, 86% 25%, 100% 43%, 95% 66%, 75% 100%, 50% 86%, 25% 100%, 5% 66%, 0 43%, 14% 25%, 25% 8%, 39% 8%);
+            background-color: #ff69b4; /* Intense pink */
+            transform: rotate(-45deg);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
             cursor: pointer;
         }
 
-        .small-heart {
-            background-color: red;
+        .heart::before,
+        .heart::after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-color: #ff69b4; /* Intense pink */
+            border-radius: 50%;
+        }
+
+        .heart::before {
+            top: -25px;
+            left: 0;
+        }
+
+        .heart::after {
+            top: 0;
+            left: -25px;
         }
 
         .big-heart {
             display: none;
-            background-color: pink;
             width: 100px;
             height: 100px;
+            background-color: #ff69b4; /* Intense pink */
+            transform: rotate(-45deg);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
 
-        .big-heart p {
-            text-align: center;
-            margin: 0;
-            padding-top: 35px;
-            color: white;
-            font-weight: bold;
+        .big-heart::before,
+        .big-heart::after {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background-color: #ff69b4; /* Intense pink */
+            border-radius: 50%;
+        }
+
+        .big-heart::before {
+            top: -50px;
+            left: 0;
+        }
+
+        .big-heart::after {
+            top: 0;
+            left: -50px;
+        }
+
+        .message {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 110%;
+            transform: translateY(-50%);
+            font-family: 'Poppins', sans-serif;
+            font-size: 24px;
+            font-weight: 600;
+            color: #ff69b4;
+        }
+
+        .big-heart.active ~ .message {
+            display: block;
         }
     </style>
 </head>
@@ -57,14 +106,14 @@
         <div class="heart small-heart" id="heart3" style="top: 150px; left: 50px;"></div>
         <div class="heart small-heart" id="heart4" style="top: 200px; left: 150px;"></div>
         <div class="heart small-heart" id="heart5" style="top: 250px; left: 100px;"></div>
-        <div class="heart big-heart" id="bigHeart">
-            <p>Well done! You won my heart!</p>
-        </div>
+        <div class="heart big-heart" id="bigHeart"></div>
+        <div class="message">Well done! You won my heart!</div>
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             let hearts = document.querySelectorAll('.small-heart');
             let bigHeart = document.getElementById('bigHeart');
+            let message = document.querySelector('.message');
             let poppedHearts = 0;
 
             hearts.forEach(heart => {
@@ -74,6 +123,8 @@
 
                     if (poppedHearts === 5) {
                         bigHeart.style.display = 'block';
+                        bigHeart.classList.add('active');
+                        message.style.display = 'block';
                     }
                 });
             });
